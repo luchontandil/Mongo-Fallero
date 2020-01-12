@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Fallas Valencia</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/button.css">
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles/main.css">
+
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.0/proj4.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.min.js"></script>
+
+</head>
+
+<body class="container">
+  <header>Fallas Valencia</header>
+  <nav>
+    <p>---Filtros---</p>
+    <form action="" method="post">
+      Seccion <br>
+      <select id="seccion" name="seccion">
+        <!-- <option>Coche</option>
+        <option>Avión</option>
+        <option>Tren</option> -->
+      </select>
+      <br>
+      Año de fundacion
+      <br>
+      <input id="anio" type="number" name="anio" value="">
+      <br>
+      Principal<input type="radio" id="principal" name="tipo" value="principal" checked> <br>
+      Infantil<input type="radio" id="infantil" name="tipo" value="infantil"> <br>
+
+    <input id="buscar" type="button" name="enviar" value="Buscar">
+    </form>
+
+  </nav>
+  <div class="cajaMapa">
+
+  </div>
+  <div id="map"></div>
+  <main>
+
+    <div class="column">
+      <!-- <div class="falla">
+        <img src="images/1.png">
+        <button class="ubicationBtn">ver mapa</button>
+      </div> -->
+    </div>
+
+    <div class="column">
+    </div>
+
+    <div class="column">
+    </div>
+
+  </main>
+
+  <script src="js/buscar.js"></script>
+  
+</body>
+
+</html>
