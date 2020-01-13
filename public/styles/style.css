@@ -1,0 +1,191 @@
+.logo {
+  content: url("../images/evilcorp.png");
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 70px;
+  height: 70px; }
+
+.ubicationBtn {
+  box-shadow: 0px 1px 0px 0px #f0f7fa;
+  background: linear-gradient(to bottom, #e60000 5%, #800000 100%);
+  background-color: #800000;
+  border-radius: 6px;
+  border: 1px solid #057fd0;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  text-shadow: 0px -1px 0px #5b6178; }
+  .ubicationBtn:hover {
+    background: linear-gradient(to bottom, #800000 5%, #e60000 100%);
+    background-color: #e60000; }
+  .ubicationBtn:active {
+    position: relative;
+    top: 1px; }
+
+.nombreFalla {
+  text-align: center;
+  font-weight: bold; }
+
+body {
+  font-family: arial; }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; }
+
+header {
+  grid-column: span 3;
+  padding: 30px;
+  text-align: center;
+  font-size: 1.4em;
+  background-color: #800000;
+  color: white; }
+
+main {
+  width: 100%;
+  display: inline-flex;
+  padding-top: 5px;
+  padding-left: 5px; }
+
+.column {
+  margin: 0 auto;
+  width: Calc(Calc(Calc(100vw)-200px)/3-20px);
+  margin-right: 0px; }
+
+.falla img {
+  width: 100%;
+  border-radius: 10px 10px 10px 10px;
+  border-bottom: 4px solid black; }
+
+nav {
+  background-color: #e60000;
+  padding: 20px; }
+  nav p, nav form {
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 10px;
+    min-width: 90px; }
+
+form * {
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 10px;
+  min-width: 90px; }
+
+option {
+  text-indent: 10px;
+  text-align: center;
+  text-align-last: right;
+  direction: rtl; }
+
+h1 {
+  margin-bottom: 1em;
+  font-size: 1.3em;
+  font-weight: bold; }
+
+.falla {
+  border-radius: 10px 10px 10px 10px;
+  border: 3px solid rgba(0, 0, 0, 0.8);
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+  margin-bottom: 5px; }
+
+.menuItem {
+  width: 100%;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: space-between;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+
+.estrellas {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+
+.checked {
+  color: orange; }
+
+.ubicationBtn {
+  margin: 3px;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto; }
+
+.cajaMapa {
+  opacity: 0.0;
+  z-index: -2;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  position: fixed; }
+
+#map {
+  position: fixed;
+  right: 0px;
+  left: 0px;
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 10vh;
+  width: 70vw;
+  height: 80vh;
+  opacity: 0.0;
+  z-index: -3; }
+
+/* Pantalla grande */
+@media (min-width: 768px) {
+  .container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: auto 1fr; } }
+
+/* Movil */
+@media (max-width: 768px) {
+  aside {
+    display: none; }
+  main {
+    display: block; }
+  .column {
+    margin: 10px;
+    width: 90vw;
+    margin: auto; } }

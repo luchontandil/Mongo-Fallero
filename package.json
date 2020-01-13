@@ -1,12 +1,10 @@
-
-
 {
   "name": "Mongo-Fallero",
   "version": "1.0.0",
   "description": "Listado de Fallas y Votaciones",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "scss": "node-sass --watch scss -o \"public/styles/\"",
     "dev": "nodemon server.js"
   },
   "keywords": [
@@ -19,6 +17,8 @@
     "express": "^4.17.1",
     "mongodb": "^3.4.0",
     "mongoose": "^5.8.0",
-    "nodemon": "^2.0.1"
+    "node-sass": "^4.13.0",
+    "nodemon": "^2.0.1",
+    "ruby-sass": "0.0.3"
   }
 }

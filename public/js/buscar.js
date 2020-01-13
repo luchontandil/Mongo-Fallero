@@ -171,7 +171,7 @@ function dibujar(items) {
   items.forEach(falla => {
     let item = document.createElement("div");
     item.innerHTML += `<img src='${falla.properties.boceto}'></img>`;
-
+    item.innerHTML += `<h3 class='nombreFalla'>${falla.properties.nombre}</h3>`;
     item.innerHTML += `<div class="menuItem">
     <div class="estrellas" fallaid="${falla.properties.id}" puntuado="no">
     <span idStar="1" class="fa fa-star"></span>
