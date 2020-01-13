@@ -12,9 +12,20 @@ exports.findAll = (req,res) => {
     });
 
 };
+
+//find todas las puntiaciones de una falla
+exports.getPuntuaciones = (req,res) => {
+    Puntuacion.findOne({ idFalla: req.body.idFalla }).then(puntuacion=>{
+        res.send(puntuacion);
+    }).catch(err=>{
+        res.status(500).send({
+            message: err.message || " Algo fue mal mientras se obtenia la falla"
+        });
+    });
+};
+
 //find una
 exports.findOne = (req,res) => {
-
     Puntuacion.findOne({ idFalla: req.body.idFalla, ip: req.body.ip }).then(puntuacion=>{
         res.send(puntuacion);
     }).catch(err=>{
@@ -64,7 +75,7 @@ exports.create = (req,res)=>{
 
 exports.delete = (req,res) => {
 
-    Puntuacion.remove({ip: req.body.ip , idFalla: req.body.idFalla })
+    Puntuacion.deleteOne({ip: req.body.ip , idFalla: req.body.idFalla })
     .then(data =>{
         res.send(data);
     })

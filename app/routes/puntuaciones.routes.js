@@ -13,11 +13,8 @@ module.exports = (app) => {
     // Retrieve a single puntuaciones with puntuacionId
     app.post('/puntuacion', puntuaciones.findOne);
 
-    // Update a puntuaciones with puntuacionId
-    //app.put('/puntuaciones/:puntuacionId', puntuaciones.update);
+    app.post('/puntuacionesFalla', puntuaciones.getPuntuaciones);
 
-    // Delete a puntuaciones with puntuacionId
-    //app.delete('/puntuaciones/:puntuacionId', puntuaciones.delete);
 
     //DELETE DE TODO LA BD
     app.delete('/puntuaciones', puntuaciones.delete);

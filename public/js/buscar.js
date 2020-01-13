@@ -3,7 +3,9 @@ const ipURL = "https://api.ipify.org?format=json";
 const serverUrl = window.location.href;
 let fallas = {};
 let puntuaciones = {};
+let allPuntuaciones = {};
 let fallasEnPantalla = [];
+let principal;
 let map;
 let ip;
 
@@ -16,14 +18,9 @@ var ip;
      ip = JSON.parse(this.responseText);
     }
   };
-  xhttp.open("GET", ipURL, true);
+  xhttp.open("GET", ipURL, false);
   xhttp.send();
-
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(ip);
-    }, 1000);
-  });
+  return ip;
 }
 
 function filtroLetra(elemento) {
@@ -39,9 +36,17 @@ function filtroSeccion(seccion) {
   } else {
     let output = [];
     fallas.forEach(item => {
-      if (item.properties.seccion == seccion) {
-        output.push(item);
+      if (principal) {
+        if (item.properties.seccion == seccion) {
+          output.push(item);
+        }
       }
+      else {
+        if (item.properties.seccion_i == seccion) {
+          output.push(item);
+        }
+      }
+
     });
     dibujar(output);
     fallasEnPantalla = output;
@@ -54,7 +59,7 @@ function filtroAnioFuncadion(anio) {
 
     let output = [];
     fallasEnPantalla.forEach(item => {
-      if (item.properties.anyo_fundacion >= anio) {
+      if (item.properties.anyo_fundacion == anio) {
         output.push(item);
       }
     });
@@ -115,6 +120,7 @@ function ponerEstrellas(id, puntos) {
 function getFallas() {
   const fetchPromesa = fetch(fallasUrl);
   fetchPromesa.then(response => {
+    getPuntuacionesDeTodas();
       return response.json();
     })
     .then(respuesta => {
@@ -123,21 +129,45 @@ function getFallas() {
       // console.log(fallas);
       dibujar(fallas);
     }).then(value => {
-      actualizarInputs(fallas)
       getPuntuaciones();
     });
+}
+
+function getPuntuacionesDeTodas() {
+  // allPuntuaciones
+
+  fetch(`/puntuaciones`, {
+    method: 'GET'
+  }).then(res => {
+    if (res != "") {
+      res.json().then(function(data) {
+        console.log(data);
+        allPuntuaciones = data;
+      })
+    }
+  });
 }
 
 function actualizarInputs(items) {
   let elementoHtml = document.querySelector("#seccion");
   let secciones = [];
-  elementoHtml.innerHTML += "";
+  elementoHtml.innerHTML = "";
 
-  items.forEach(item => {
-    if (!secciones.includes(item.properties.seccion)) {
-      secciones.push(item.properties.seccion);
-    }
-  });
+  if (principal) {
+    items.forEach(item => {
+      if (!secciones.includes(item.properties.seccion)) {
+        secciones.push(item.properties.seccion);
+      }
+    });
+  }
+  else {
+    items.forEach(item => {
+      if (!secciones.includes(item.properties.seccion_i)) {
+        secciones.push(item.properties.seccion_i);
+      }
+    });
+  }
+
   secciones.sort();
   secciones.unshift('TODAS');
   secciones.forEach(item => {
@@ -147,8 +177,6 @@ function actualizarInputs(items) {
 }
 
 function dibujar(items) {
-  // console.log(respuesta.features[0].properties);
-  // const resultado = respuesta.features.filter(filtroLetra);
   document.querySelector('main').innerHTML = "";
 
   let column1 = document.createElement("div");
@@ -168,10 +196,20 @@ function dibujar(items) {
   document.querySelector("main").appendChild(column2);
   document.querySelector("main").appendChild(column3);
 
+  principal = document.querySelector('#principal').checked;
+
+  actualizarInputs(fallas);
+
   items.forEach(falla => {
     let item = document.createElement("div");
-    item.innerHTML += `<img src='${falla.properties.boceto}'></img>`;
+
+    if (principal) {item.innerHTML += `<img src='${falla.properties.boceto}'></img>`;}
+    else {
+      item.innerHTML += `<img src='${falla.properties.boceto_i}'></img>`;
+    }
+
     item.innerHTML += `<h3 class='nombreFalla'>${falla.properties.nombre}</h3>`;
+    item.innerHTML += `<h3 class='nombreFalla'>Puntaje Promedio: ${getPromedio(falla.properties.id)}</h3>`;
     item.innerHTML += `<div class="menuItem">
     <div class="estrellas" fallaid="${falla.properties.id}" puntuado="no">
     <span idStar="1" class="fa fa-star"></span>
@@ -188,16 +226,28 @@ function dibujar(items) {
     item.querySelectorAll('.estrellas span').forEach(stars => {
       stars.addEventListener("click", votar);
       stars.addEventListener("mouseover", colorear);
-      // if (stars.parentNode.getAttribute("puntuado") != 'si') {
       stars.addEventListener("mouseout", restore);
-      // } else {
-      // stars.addEventListener("mouseout", dejarComoEstaba);
-      // }
     });
     columns[i].appendChild(item);
     i++;
     if (i == 3) i = 0;
   });
+}
+
+function getPromedio(id) {
+  let suma = 0;
+  let cantidad = 0;
+  let promedio;
+
+  allPuntuaciones.forEach(falla =>{
+    if (falla.idFalla == id) {
+      suma+= falla.puntuacion;
+      cantidad++;
+    }
+  });
+  promedio = eval(suma/cantidad).toFixed(2);
+
+  return isNaN(promedio) ? 0 : promedio
 }
 
 // Restaura el estado de la puntuacion, si ya tenia puntaje lo deja como estaba
@@ -347,24 +397,30 @@ function getUnaFalla(id) {
 
 async function init() {
   // Click en el boton de buscar
-  document.querySelector("#buscar").addEventListener("click", buscar);
-  // Texto cambia en el <input>
-  // document.querySelector(`input[type="text"]`).addEventListener("input", toUpp);
+  // document.querySelector("#buscar").addEventListener("click", buscar);
+
   document.querySelector('.cajaMapa').addEventListener("click", desaparecer);
 
   document.querySelector('#seccion').addEventListener("change", buscar);
 
+  document.querySelector('#anio').addEventListener("change", buscar);
 
-    ip = await getIP();
+  document.querySelector('#principal').addEventListener("click", buscar);
 
-    getFallas();
-    console.log(`'${ip.ip}'`);
+  document.querySelector('#infantil').addEventListener("click", buscar);
 
+
+  ip = await getIP();
+
+  getFallas();
+  console.log(`'${ip.ip}'`);
 
   // getPuntuaciones();
   //borarTODO();
   //getUnaFalla(327);
 
+  //disables the enter keypress
+  window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='number'){e.preventDefault();return false;}}},true);
 }
 
 // The mother of the lamb.
